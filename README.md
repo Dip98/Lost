@@ -1,4 +1,4 @@
 The devolpment of this game is resumed.
 
-v0.1 and v0.3 both work.
-v0.2 does not work.
+v0.4 is the current game.
+v0.1, v0.2, and v0.3 are all outdated.
