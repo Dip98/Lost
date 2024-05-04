@@ -20,15 +20,19 @@ window.addEventListener('DOMContentLoaded', function(){
             keys[e.key] = false;
         });
         
-        scene.clearColor = new BABYLON.Color3(0, 0.804, 1);
+        scene.clearColor = new BABYLON.Color3(0, 0, 0);
+        scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
+        scene.fogColor = scene.clearColor;
+        scene.fogStart = 20.0;
+        scene.fogEnd = 50.0;
         
         //Creates the player
-        const player = BABYLON.MeshBuilder.CreateSphere    ("player", {segments: 12, diameter: 2}, scene);
+        const player = BABYLON.MeshBuilder.CreateSphere    ("player", {segments: 12, diameter: 3}, scene);
         
         player.material = new BABYLON.StandardMaterial("playerMaterial", scene);
         player.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
         
-        player.position = new BABYLON.Vector3(0, 15, 0);
+        player.position = new BABYLON.Vector3(0, 5, 0);
         player.physicsImpostor = new BABYLON.PhysicsImpostor(player, BABYLON.PhysicsImpostor.SphereImpostor, {mass: 1, restitution: 0.9}, scene);
         let canJump = true;
         let cooldown = 50;
@@ -36,11 +40,12 @@ window.addEventListener('DOMContentLoaded', function(){
         
         //Creates the camera
         const camera = new BABYLON.FreeCamera("Camera", new BABYLON.Vector3(player.position.x, 10, player.position.z), scene);
+        camera.attachControl();
 
         //Creates the light
         const light = new BABYLON.HemisphericLight('light', new BABYLON.Vector3(0, 1, 0), scene);
          
-        function createBox(x, y, z, w, h, d, xRot, yRot, zRot, clr, m) {
+function createBox(x, y, z, w, h, d, xRot, yRot, zRot, clr, m) {
     const Box = BABYLON.MeshBuilder.CreateBox('Box', {
         width: w,
         height: h,
@@ -84,7 +89,7 @@ function createCylinder(x, y, z, h, dt, db, xRot, yRot, zRot, clr) {
     Cylinder.position = new BABYLON.Vector3(x, y, z);
     Cylinder.rotation = new BABYLON.Vector3(xRot, yRot, zRot);
     Cylinder.physicsImpostor = new BABYLON.PhysicsImpostor(Cylinder, BABYLON.PhysicsImpostor.CylinderImpostor, {
-        mass: 1,
+        mass: 0,
         restitution: 0.5
     }, scene);
 }
@@ -99,19 +104,17 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
     Torus.position = new BABYLON.Vector3(x, y, z);
     Torus.rotation = new BABYLON.Vector3(xRot, yRot, zRot);
 }
-function cubeCollide(p1X, p1Y, p1Z, p1W, p1H, p1D, p2X, p2Y, p2Z, p2W, p2H, p2D){
-            p1X += p1W / 2; 
-            p1Y += p1H / 2; 
-            p1Z += p1D / 2; 
-            p2X += p2W / 2; 
-            p2Y += p2H / 2; 
-            p2Z += p2D / 2; 
-            return(p1X + p1W / 2 > p2X - p2W && p1X - p1W / 2 < p2X + p2W && p1Y + p1H / 2 > p2Y - p2H && p1Y - p1H / 2 < p2Y + p2H && p1Z + p1D / 2 > p2Z - p2D && p1Z - p1D / 2 < p2Z + p2D); 
-}
 
-        createBox(0, 0, 10, 5, 0.1, 30, 0.3, 0, 0, new BABYLON.Color3(0.5, 0.5, 0.5));
-        createBox(0, 0.5, 15, 3, 3, 3, 0.3, 0, 0, new BABYLON.Color3(0.5, 0.1, 0.1));
+        createBox(0, 0, 0, 300, 0.1, 300, 0, 0, 0, new BABYLON.Color3(0.3, 0.3, 0.3));
+        createBox(0, 10, 0, 300, 0.1, 300, 0, 0, 0, new BABYLON.Color3(0.3, 0.3, 0.3));
+        for (var i = -100; i < 100; i += 20){
+            for(var j = -100; j < 100; j += 20)
+            createCylinder(i, 5, j, 10, 2, 2, 0, 0, 0, new BABYLON.Color3(0.5, 0.5, 0.5));
+        }
 
+        function pointerLock(){
+            canvas.requestPointerLock();
+         }
         scene.registerAfterRender(function() {
             //Player movement
             var vel = player.physicsImpostor.getLinearVelocity();
@@ -125,13 +128,18 @@ function cubeCollide(p1X, p1Y, p1Z, p1W, p1H, p1D, p2X, p2Y, p2Z, p2W, p2H, p2D)
             var backward = BABYLON.Vector3.TransformCoordinates(forward, BABYLON.Matrix.RotationY(Math.PI));
             var left = BABYLON.Vector3.TransformCoordinates(forward, BABYLON.Matrix.RotationY((3 * Math.PI) / 2));
             var right = BABYLON.Vector3.TransformCoordinates(forward, BABYLON.Matrix.RotationY(Math.PI / 2));
-            player.applyImpulse(forward/1.1, player.getAbsolutePosition());
-
+            
+            if (keys.w){
+                player.applyImpulse(forward, player.getAbsolutePosition());
+            }
             if (keys.a) {
                 player.applyImpulse(left, player.getAbsolutePosition());
             }
             if (keys.d) {
                 player.applyImpulse(right, player.getAbsolutePosition());
+            }
+            if (keys.s) {
+                player.applyImpulse(backward, player.getAbsolutePosition());
             }
             if (keys[' '] && canJump){
                 player.applyImpulse(new BABYLON.Vector3(0, 10, 0), player.getAbsolutePosition());
@@ -146,8 +154,8 @@ function cubeCollide(p1X, p1Y, p1Z, p1W, p1H, p1D, p2X, p2Y, p2Z, p2W, p2H, p2D)
                 canJump = true;
                 cooldown = 50;
             }
-            camera.position = new BABYLON.Vector3(player.position.x, player.position.y+2.5, player.position.z-9);
-            camera.rotation = new BABYLON.Vector3(0.3, 0, 0);
+            camera.position = new BABYLON.Vector3(player.position.x, player.position.y+0.5, player.position.z);
+            document.addEventListener("click", pointerLock);
         });
          return scene;
         }
