@@ -43,8 +43,13 @@ window.addEventListener('DOMContentLoaded', function(){
         camera.attachControl();
 
         //Creates the light
-        const light = new BABYLON.HemisphericLight('light', new BABYLON.Vector3(0, 1, 0), scene);
-         
+        const light = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(1, 10, 1), scene);
+        light.range = 50;
+        light.intensity = 0.7;
+        const light2 = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(1, 10, 1), scene);
+        light2.range = 50;
+        light2.intensity = 0.7;
+
 function createBox(x, y, z, w, h, d, xRot, yRot, zRot, clr, m) {
     const Box = BABYLON.MeshBuilder.CreateBox('Box', {
         width: w,
@@ -105,10 +110,10 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
     Torus.rotation = new BABYLON.Vector3(xRot, yRot, zRot);
 }
 
-        createBox(0, 0, 0, 300, 0.1, 300, 0, 0, 0, new BABYLON.Color3(0.3, 0.3, 0.3));
-        createBox(0, 10, 0, 300, 0.1, 300, 0, 0, 0, new BABYLON.Color3(0.3, 0.3, 0.3));
-        for (var i = -100; i < 100; i += 20){
-            for(var j = -100; j < 100; j += 20)
+        createBox(0, 0, 0, 800, 0.1, 800, 0, 0, 0, new BABYLON.Color3(0.3, 0.3, 0.3));
+        createBox(0, 10, 0, 800, 0.1, 800, 0, 0, 0, new BABYLON.Color3(0.3, 0.3, 0.3));
+        for (var i = -400; i < 400; i += 20){
+            for(var j = -400; j < 400; j += 20)
             createCylinder(i, 5, j, 10, 2, 2, 0, 0, 0, new BABYLON.Color3(0.5, 0.5, 0.5));
         }
 
@@ -155,6 +160,8 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
                 cooldown = 50;
             }
             camera.position = new BABYLON.Vector3(player.position.x, player.position.y+0.5, player.position.z);
+            light.position = player.position;
+            light2.position = new BABYLON.Vector3(player.position.x, player.position.y+5, player.position.z);
             document.addEventListener("click", pointerLock);
         });
          return scene;
@@ -167,3 +174,18 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
     });
     
 });
+var FPS = document.getElementById('fps');
+var before, now, fps;
+before = Date.now();
+fps = 0;
+requestAnimationFrame(
+    function loop(){
+        now = Date.now();
+        fps = Math.round(1000 / (now - before));
+        before = now;
+        requestAnimationFrame(loop);
+        FPS.innerHTML = fps;
+    }
+ );
+
+
