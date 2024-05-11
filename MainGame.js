@@ -6,6 +6,9 @@ window.addEventListener('DOMContentLoaded', function(){
     }
     const engine = new BABYLON.Engine(canvas, true);
     function run(){
+        let menuEl = document.getElementById("menu");
+        let plybtnEl = document.getElementById("ply-btn");
+
         //Create the scene
         const scene = new BABYLON.Scene(engine);
         
@@ -119,7 +122,11 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
 
         function pointerLock(){
             canvas.requestPointerLock();
-         }
+        }
+        function play(){
+            menuEl.style.left = '10000px';
+            plybtnEl.style.display = 'none';
+        }
         scene.registerAfterRender(function() {
             //Player movement
             var vel = player.physicsImpostor.getLinearVelocity();
@@ -162,7 +169,10 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
             camera.position = new BABYLON.Vector3(player.position.x, player.position.y+0.5, player.position.z);
             light.position = player.position;
             light2.position = new BABYLON.Vector3(player.position.x, player.position.y+5, player.position.z);
-            document.addEventListener("click", pointerLock);
+            if (menuEl.style.left === '10000px'){
+                document.addEventListener("click", pointerLock);
+            }
+            plybtnEl.addEventListener("click", play)
         });
          return scene;
         }
