@@ -31,7 +31,11 @@ body{
     top:-50px;
 }
 #menu p{
-    font-size:50px;
+    font-size:45px;
+}
+#menu a{
+    text-decoration:underline;
+    color:white;
 }
 .btn{
     background-color:black;
@@ -67,6 +71,18 @@ body{
 }
 #crd-btn{
     top:400px;
+    left:52.5%;
+    width:12.5%;
+    height:50px;
+}
+#con-btn{
+    top:500px;
+    left:35%;
+    width:12.5%;
+    height:50px;
+}
+#abt-btn{
+    top:500px;
     left:52.5%;
     width:12.5%;
     height:50px;
