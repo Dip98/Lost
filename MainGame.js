@@ -8,6 +8,9 @@ window.addEventListener('DOMContentLoaded', function(){
     function run(){
         let menuEl = document.getElementById("menu");
         let plybtnEl = document.getElementById("ply-btn");
+        let setbtnEl = document.getElementById("set-btn");
+        let crdbtnEl = document.getElementById("crd-btn");
+        let bckbtnEl = document.getElementById("bck-btn");
 
         //Create the scene
         const scene = new BABYLON.Scene(engine);
@@ -119,13 +122,24 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
             for(var j = -400; j < 400; j += 20)
             createCylinder(i, 5, j, 10, 2, 2, 0, 0, 0, new BABYLON.Color3(0.5, 0.5, 0.5));
         }
-
         function pointerLock(){
             canvas.requestPointerLock();
         }
         function play(){
             menuEl.style.left = '10000px';
             plybtnEl.style.display = 'none';
+            setbtnEl.style.display = 'none';
+            crdbtnEl.style.display = 'none';
+        }
+        function settings(){
+            menuEl.innerHTML = "<h1>Settings</h1><p style = 'position:relative; top:-90px;'>Delag:</p>"
+            plybtnEl.style.display = 'none';
+            setbtnEl.style.display = 'none';
+            crdbtnEl.style.display = 'none';
+            bckbtnEl.style.display = 'block';
+        }
+        function back(){
+
         }
         scene.registerAfterRender(function() {
             //Player movement
@@ -173,6 +187,7 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
                 document.addEventListener("click", pointerLock);
             }
             plybtnEl.addEventListener("click", play)
+            setbtnEl.addEventListener("click", settings)
         });
          return scene;
         }
@@ -197,5 +212,3 @@ requestAnimationFrame(
         FPS.innerHTML = fps;
     }
  );
-
-
