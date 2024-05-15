@@ -10,6 +10,8 @@ window.addEventListener('DOMContentLoaded', function(){
         let plybtnEl = document.getElementById("ply-btn");
         let setbtnEl = document.getElementById("set-btn");
         let crdbtnEl = document.getElementById("crd-btn");
+        let conbtnEl = document.getElementById("con-btn");
+        let abtbtnEl = document.getElementById("abt-btn");
         let bckbtnEl = document.getElementById("bck-btn");
 
         //Create the scene
@@ -130,16 +132,35 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
             plybtnEl.style.display = 'none';
             setbtnEl.style.display = 'none';
             crdbtnEl.style.display = 'none';
+            conbtnEl.style.display = 'none';
+            abtbtnEl.style.display = 'none';
         }
         function settings(){
-            menuEl.innerHTML = "<h1>Settings</h1><p style = 'position:relative; top:-90px;'>Delag:</p>"
+            menuEl.innerHTML = "<h1>Settings</h1><p style = 'position:relative; top:-120px;'>Delag:<br><br><br>FPS Counter:<br><br><br>Dev Mode:</p>"
             plybtnEl.style.display = 'none';
             setbtnEl.style.display = 'none';
             crdbtnEl.style.display = 'none';
+            conbtnEl.style.display = 'none';
+            abtbtnEl.style.display = 'none';
+            bckbtnEl.style.display = 'block';
+        }
+        function credits(){
+            menuEl.innerHTML = "<h1>Credits</h1><p style = 'position:relative; top:-90px;'>Credit to <a href = 'https://www.khanacademy.org/profile/kaid_351465532815782433620675' target = 'blank'>The Duke</a> for playtesting.<br><br>Credit to <a href = 'https://simplycoding.org/' target = 'blank'>Simply Coding</a> for basic Babylon.js stuff.</p>"
+            plybtnEl.style.display = 'none';
+            setbtnEl.style.display = 'none';
+            crdbtnEl.style.display = 'none';
+            conbtnEl.style.display = 'none';
+            abtbtnEl.style.display = 'none';
             bckbtnEl.style.display = 'block';
         }
         function back(){
-
+            menuEl.innerHTML = '<h1>Lost</h1>';
+            plybtnEl.style.display = 'block';
+            setbtnEl.style.display = 'block';
+            crdbtnEl.style.display = 'block';
+            conbtnEl.style.display = 'block';
+            abtbtnEl.style.display = 'block';
+            bckbtnEl.style.display = 'none';
         }
         scene.registerAfterRender(function() {
             //Player movement
@@ -188,6 +209,8 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
             }
             plybtnEl.addEventListener("click", play)
             setbtnEl.addEventListener("click", settings)
+            crdbtnEl.addEventListener("click", credits)
+            bckbtnEl.addEventListener("click", back)
         });
          return scene;
         }
