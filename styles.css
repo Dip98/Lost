@@ -25,10 +25,13 @@ body{
     color:white; 
     text-align:center;
 }
-#title{
+#menu h1{
     font-size:160px; 
     position:relative; 
     top:-50px;
+}
+#menu p{
+    font-size:50px;
 }
 .btn{
     background-color:black;
@@ -36,7 +39,7 @@ body{
     font-size:30px; 
     border:solid;
     border-color:white;
-    position:relative;
+    position:absolute;
     text-align:center;
     transition:0.9s;
     cursor:pointer;
@@ -56,4 +59,22 @@ body{
     width:25%;
     height:50px;
 }
-
+#set-btn{
+    top:400px;
+    left:35%;
+    width:12.5%;
+    height:50px;
+}
+#crd-btn{
+    top:400px;
+    left:52.5%;
+    width:12.5%;
+    height:50px;
+}
+#bck-btn{
+    top:90%;
+    left:43.75%;
+    width:12.5%;
+    height:50px;
+    display:none;
+}
