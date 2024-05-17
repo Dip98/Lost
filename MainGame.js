@@ -14,6 +14,8 @@ window.addEventListener('DOMContentLoaded', function(){
         let abtbtnEl = document.getElementById("abt-btn");
         let bckbtnEl = document.getElementById("bck-btn");
 
+        let d98linkEl = document.getElementById("dipper98-link");
+
         //Create the scene
         const scene = new BABYLON.Scene(engine);
         
@@ -127,30 +129,35 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
         function pointerLock(){
             canvas.requestPointerLock();
         }
-        function play(){
-            menuEl.style.left = '10000px';
+        function switchPages(){
             plybtnEl.style.display = 'none';
             setbtnEl.style.display = 'none';
             crdbtnEl.style.display = 'none';
             conbtnEl.style.display = 'none';
             abtbtnEl.style.display = 'none';
         }
+        function play(){
+            menuEl.style.left = '10000px';
+            switchPages();
+        }
         function settings(){
-            menuEl.innerHTML = "<h1>Settings</h1><p style = 'position:relative; top:-120px;'>Delag:<br><br><br>FPS Counter:<br><br><br>Dev Mode:</p>"
-            plybtnEl.style.display = 'none';
-            setbtnEl.style.display = 'none';
-            crdbtnEl.style.display = 'none';
-            conbtnEl.style.display = 'none';
-            abtbtnEl.style.display = 'none';
+            menuEl.innerHTML = "<h1>Settings</h1><p style = 'position:relative; top:-120px; font-size:35px;'>Delag:<br><br><br>FPS Counter:<br><br><br>Fancy Font:<br><br><br>Dev Mode:</p>"
+            switchPages();
             bckbtnEl.style.display = 'block';
         }
         function credits(){
             menuEl.innerHTML = "<h1>Credits</h1><p style = 'position:relative; top:-90px;'>Credit to <a href = 'https://www.khanacademy.org/profile/kaid_351465532815782433620675' target = 'blank'>The Duke</a> for playtesting.<br><br>Credit to <a href = 'https://simplycoding.org/' target = 'blank'>Simply Coding</a> for basic Babylon.js stuff.</p>"
-            plybtnEl.style.display = 'none';
-            setbtnEl.style.display = 'none';
-            crdbtnEl.style.display = 'none';
-            conbtnEl.style.display = 'none';
-            abtbtnEl.style.display = 'none';
+            switchPages();
+            bckbtnEl.style.display = 'block';
+        }
+        function controls(){
+            menuEl.innerHTML = "<h1>Controls</h1><p style = 'position:relative; top:-90px;'>Wasd to move<br><br>Mouse to look around<br><br>Q to attack<br><br>E to upgrade sword</p>";
+            switchPages();
+            bckbtnEl.style.display = 'block';
+        }
+        function about(){
+            menuEl.innerHTML = "<h1>About</h1><p style = 'position:relative; top:-90px;'>Lost is an 3D Babylon.js Game made by <a href = 'https://github.com/Dip98' target = 'blank'>Dipper98</a>.<br><br>The faster the computer you have, the better. If your computer starts lagging, then turn on the delag setting.<br><br>Know that this may change some parts of the game for worse.<br><br>If you liked this game, then please consider following me on GitHub, or subscribing to me on Khan Academy.</p>";
+            switchPages();
             bckbtnEl.style.display = 'block';
         }
         function back(){
@@ -210,6 +217,8 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
             plybtnEl.addEventListener("click", play)
             setbtnEl.addEventListener("click", settings)
             crdbtnEl.addEventListener("click", credits)
+            conbtnEl.addEventListener("click", controls)
+            abtbtnEl.addEventListener("click", about)
             bckbtnEl.addEventListener("click", back)
         });
          return scene;
