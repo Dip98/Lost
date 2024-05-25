@@ -94,6 +94,20 @@ body{
     height:50px;
     display:none;
 }
+#dlg-btn{
+    top:300px;
+    left:43.75%;
+    width:12.5%;
+    height:50px;
+    display:none;
+}
+#fps-btn{
+    top:400px;
+    left:43.75%;
+    width:12.5%;
+    height:50px;
+    display:none;
+}
 #dipper98-link{
     text-decoration:underline;
 }
