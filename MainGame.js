@@ -14,6 +14,11 @@ window.addEventListener('DOMContentLoaded', function(){
         let abtbtnEl = document.getElementById("abt-btn");
         let bckbtnEl = document.getElementById("bck-btn");
 
+        let dlgbtnEl = document.getElementById("dlg-btn");
+        let delag = false;
+        let fpsbtnEl = document.getElementById("fps-btn");
+        let fpsOn = false;
+
         let d98linkEl = document.getElementById("dipper98-link");
 
         //Create the scene
@@ -129,6 +134,9 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
         function pointerLock(){
             canvas.requestPointerLock();
         }
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
         function switchPages(){
             plybtnEl.style.display = 'none';
             setbtnEl.style.display = 'none';
@@ -136,14 +144,19 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
             conbtnEl.style.display = 'none';
             abtbtnEl.style.display = 'none';
         }
+        function setSettings(){
+            menuEl.innerHTML = "<h1>Settings</h1><p style = 'position:relative; top:-120px; font-size:35px;'>Delag: "+capitalizeFirstLetter(delag.toString())+"<br><br><br>FPS Counter: "+capitalizeFirstLetter(fpsOn.toString())+"<br><br><br>Fancy Font:<br><br><br>Dev Mode:</p>"
+        }
         function play(){
             menuEl.style.left = '10000px';
             switchPages();
         }
         function settings(){
-            menuEl.innerHTML = "<h1>Settings</h1><p style = 'position:relative; top:-120px; font-size:35px;'>Delag:<br><br><br>FPS Counter:<br><br><br>Fancy Font:<br><br><br>Dev Mode:</p>"
             switchPages();
             bckbtnEl.style.display = 'block';
+            dlgbtnEl.style.display = 'block';
+            fpsbtnEl.style.display = 'block';
+            setSettings();
         }
         function credits(){
             menuEl.innerHTML = "<h1>Credits</h1><p style = 'position:relative; top:-90px;'>Credit to <a href = 'https://www.khanacademy.org/profile/kaid_351465532815782433620675' target = 'blank'>The Duke</a> for playtesting.<br><br>Credit to <a href = 'https://simplycoding.org/' target = 'blank'>Simply Coding</a> for basic Babylon.js stuff.</p>"
@@ -168,6 +181,24 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
             conbtnEl.style.display = 'block';
             abtbtnEl.style.display = 'block';
             bckbtnEl.style.display = 'none';
+            dlgbtnEl.style.display = 'none';
+            fpsbtnEl.style.display = 'none';
+        }
+        function setDelag(){
+            if (delag){
+                delag = false;
+            }else{
+                delag = true;
+            }
+            setSettings();
+        }
+        function setFPS(){
+            if (fpsOn){
+                fpsOn = false;
+            }else{
+                fpsOn = true;
+            }
+            setSettings();
         }
         scene.registerAfterRender(function() {
             //Player movement
@@ -220,6 +251,8 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
             conbtnEl.addEventListener("click", controls)
             abtbtnEl.addEventListener("click", about)
             bckbtnEl.addEventListener("click", back)
+            dlgbtnEl.addEventListener("click", setDelag)
+            fpsbtnEl.addEventListener("click", setFPS)
         });
          return scene;
         }
