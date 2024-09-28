@@ -108,6 +108,13 @@ body{
     height:50px;
     display:none;
 }
+#font-btn{
+    top:510px;
+    left:43.75%;
+    width:12.5%;
+    height:50px;
+    display:none;
+}
 #dipper98-link{
     text-decoration:underline;
 }
