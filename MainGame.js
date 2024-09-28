@@ -17,9 +17,14 @@ window.addEventListener('DOMContentLoaded', function(){
         let dlgbtnEl = document.getElementById("dlg-btn");
         let delag = false;
         let fpsbtnEl = document.getElementById("fps-btn");
+        let FPS2 = document.getElementById('fps');
         let fpsOn = false;
+        let fontbtnEl = document.getElementById("font-btn");
+        let bodyEl = document.getElementById("body");
+        let fancyFont = true;
 
         let d98linkEl = document.getElementById("dipper98-link");
+        let settingWords = 'top:-120px;';
 
         //Create the scene
         const scene = new BABYLON.Scene(engine);
@@ -145,7 +150,7 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
             abtbtnEl.style.display = 'none';
         }
         function setSettings(){
-            menuEl.innerHTML = "<h1>Settings</h1><p style = 'position:relative; top:-120px; font-size:35px;'>Delag: "+capitalizeFirstLetter(delag.toString())+"<br><br><br>FPS Counter: "+capitalizeFirstLetter(fpsOn.toString())+"<br><br><br>Fancy Font:<br><br><br>Dev Mode:</p>"
+            menuEl.innerHTML = "<h1>Settings</h1><p style = 'position:relative; top:-120px; font-size:35px;'>Delag: "+capitalizeFirstLetter(delag.toString())+"<br><br><br>FPS Counter: "+capitalizeFirstLetter(fpsOn.toString())+"<br><br><br>Fancy Font: "+capitalizeFirstLetter(fancyFont.toString())+"<br><br><br>Dev Mode:</p>"
         }
         function play(){
             menuEl.style.left = '10000px';
@@ -156,6 +161,7 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
             bckbtnEl.style.display = 'block';
             dlgbtnEl.style.display = 'block';
             fpsbtnEl.style.display = 'block';
+            fontbtnEl.style.display = 'block';
             setSettings();
         }
         function credits(){
@@ -183,6 +189,7 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
             bckbtnEl.style.display = 'none';
             dlgbtnEl.style.display = 'none';
             fpsbtnEl.style.display = 'none';
+            fontbtnEl.style.display = 'none';
         }
         function setDelag(){
             if (delag){
@@ -197,6 +204,14 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
                 fpsOn = false;
             }else{
                 fpsOn = true;
+            }
+            setSettings();
+        }
+        function setFont(){
+            if (fancyFont){
+                fancyFont = false;
+            }else{
+                fancyFont = true;
             }
             setSettings();
         }
@@ -253,6 +268,18 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
             bckbtnEl.addEventListener("click", back)
             dlgbtnEl.addEventListener("click", setDelag)
             fpsbtnEl.addEventListener("click", setFPS)
+            fontbtnEl.addEventListener("click", setFont)
+            if (fpsOn){
+                FPS2.style.display = 'block';
+            }
+            if (!fpsOn){
+                FPS2.style.display = 'none';
+            }
+            if (fancyFont){
+                bodyEl.style.fontFamily = 'Tangerine';
+            }else{
+                bodyEl.style.fontFamily = 'Comfortaa';
+            }
         });
          return scene;
         }
@@ -264,8 +291,12 @@ function createTorus(x, y, z, d, t, xRot, yRot, zRot, clr) {
     });
     
 });
-var FPS = document.getElementById('fps');
-var before, now, fps;
+let FPS = document.getElementById('fps');
+let before, now, fps;
+let allFps = [];
+let allFps1 = 0;
+let avgFps = 60;
+let fpsCooldown = 0;
 before = Date.now();
 fps = 0;
 requestAnimationFrame(
@@ -274,6 +305,21 @@ requestAnimationFrame(
         fps = Math.round(1000 / (now - before));
         before = now;
         requestAnimationFrame(loop);
-        FPS.innerHTML = fps;
+        FPS.innerHTML = 'Average FPS: '+avgFps;
+        if (fpsCooldown > 0){
+            fpsCooldown--;
+        }else{
+        if (allFps.length < 100){
+            allFps.push(fps);
+        }else{
+            for (let i = 0; i < allFps.length; i++){
+                allFps1 += allFps[i];
+            }
+            avgFps = allFps1 / allFps.length;
+            allFps1 = 0;
+            allFps = [];
+            fpsCooldown = 50;
+        }
+        }
     }
  );
